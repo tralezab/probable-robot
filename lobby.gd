@@ -1,8 +1,7 @@
 extends Control
 
-const DEFAULT_PORT = 8910 # An arbitrary number.
-
 onready var address = $Address
+onready var port = $Port
 onready var host_button = $HostButton
 onready var join_button = $JoinButton
 onready var status_ok = $StatusOk
@@ -21,12 +20,12 @@ func _ready():
 # Callback from SceneTree.
 func _player_connected(_id):
 	# Someone connected, start the game!
-	var shrimp = load("res://shrimp.tscn").instance()
+	var shrimp = load("res://World.tscn").instance()
 	# Connect deferred so we can safely erase it from the callback.
 	shrimp.connect("game_finished", self, "_end_game", [], CONNECT_DEFERRED)
 	
 	get_tree().get_root().add_child(shrimp)
-	hide()
+	get_parent().hide()
 
 
 func _player_disconnected(_id):
@@ -82,7 +81,7 @@ func _set_status(text, isok):
 func _on_host_pressed():
 	var host = NetworkedMultiplayerENet.new()
 	host.set_compression_mode(NetworkedMultiplayerENet.COMPRESS_RANGE_CODER)
-	var err = host.create_server(DEFAULT_PORT, 1) # Maximum of 1 peer, since it's a 2-player game.
+	var err = host.create_server(int(port.get_text()), 1) # Maximum of 1 peer, since it's a 2-player game.
 	if err != OK:
 		# Is another server running?
 		_set_status("Can't host, address in use.",false)
@@ -102,11 +101,13 @@ func _on_join_pressed():
 	
 	var host = NetworkedMultiplayerENet.new()
 	host.set_compression_mode(NetworkedMultiplayerENet.COMPRESS_RANGE_CODER)
-	host.create_client(ip, DEFAULT_PORT)
+	host.create_client(ip, int(port.get_text()))
 	get_tree().set_network_peer(host)
 	
 	_set_status("Connecting...", true)
 
+func _on_cheat_pressed():
+	var shrimp = load("res://World.tscn").instance()
+	get_tree().get_root().add_child(shrimp)
+	get_parent().hide()
 
-func _on_HostButton_pressed():
-	pass # Replace with function body.
