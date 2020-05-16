@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://shrimp.tscn" type="PackedScene" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://background.jpg" type="Texture" id=2]
 
 [node name="World" type="Node"]
 
@@ -13,7 +13,7 @@ current = true
 position = Vector2( 234.332, 214.263 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 508.291, 299.211 )
-scale = Vector2( 17.2349, 10.5008 )
+position = Vector2( 512.588, 301.752 )
+scale = Vector2( 1.65856, 1.97899 )
 z_index = -1
 texture = ExtResource( 2 )

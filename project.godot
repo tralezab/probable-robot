@@ -19,6 +19,10 @@ config/name="frog2"
 run/main_scene="res://lobby.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/stretch/mode="viewport"
+
 [input]
 
 rightclick={

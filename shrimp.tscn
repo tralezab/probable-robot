@@ -1,14 +1,19 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://crosshair.png" type="Texture" id=1]
 [ext_resource path="res://shrimp.gd" type="Script" id=2]
 [ext_resource path="res://thing.png" type="Texture" id=3]
 [ext_resource path="res://shrimpcurrent.gd" type="Script" id=4]
+[ext_resource path="res://attack.png" type="Texture" id=5]
 
 [sub_resource type="PhysicsMaterial" id=1]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 32, 32 )
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 16.0
+height = 16.0
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 4 )
@@ -26,6 +31,19 @@ scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
 
 [node name="Camera2D" type="Camera2D" parent="RigidBody2D"]
+
+[node name="Attack" type="Sprite" parent="RigidBody2D"]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( 48, 5.68434e-14 )
+scale = Vector2( 2.66667, 4 )
+texture = ExtResource( 5 )
+
+[node name="Attack_Area" type="Area2D" parent="RigidBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D/Attack_Area"]
+position = Vector2( 48, 0 )
+shape = SubResource( 3 )
 
 [node name="Destination" type="Position2D" parent="."]
 visible = false

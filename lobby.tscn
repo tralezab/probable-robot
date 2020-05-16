@@ -81,7 +81,7 @@ margin_right = 210.0
 margin_bottom = 264.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-text = "8910"
+text = "10666"
 
 [node name="HostButton" type="Button" parent="LobbyPanel"]
 margin_left = 10.0
@@ -103,6 +103,9 @@ margin_bottom = 80.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Join"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CheatButton" type="Button" parent="LobbyPanel"]
 margin_left = 62.0
