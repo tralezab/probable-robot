@@ -7,11 +7,13 @@
 
 [node name="shrimp" parent="." instance=ExtResource( 1 )]
 position = Vector2( 461.7, 209 )
-mass = 0.00102041
-gravity_scale = 0.0
+current = true
+
+[node name="shrimp2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 234.332, 214.263 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 519.518, 304.025 )
+position = Vector2( 508.291, 299.211 )
 scale = Vector2( 17.2349, 10.5008 )
 z_index = -1
 texture = ExtResource( 2 )
