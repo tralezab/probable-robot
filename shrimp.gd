@@ -23,8 +23,7 @@ func _physics_process(delta):
 			$Sprite.flip_v = false
 			
 		##REMINDER: SET THE SHRIMP TO SLOWLY LOSE MOMENTUM FOR COLLISIONS
-			
-		#linear_velocity = 
+		linear_velocity = Vector2.ZERO
 	if direction_to.length() < 10:
 		linear_velocity = Vector2.ZERO
 		destination.global_position = global_position
