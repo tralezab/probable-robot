@@ -12,6 +12,7 @@ onready var attacksprite = $Attack
 onready var attackarea = $Attack_Area
 
 onready var destination = get_parent().get_node("Destination")
+onready var healthhud = get_parent().get_node("Healthbar")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -38,8 +39,13 @@ func _physics_process(delta):
 		pass
 	else:
 		linear_velocity = direction_to.clamped(SPEED) * SPEED * delta
+	healthhud.global_position = global_position
+	###DOES NOT WOOOORK
+	var current_health = health / MAX_HEALTH
+	print(current_health)
+	healthhud.modulate = Color(1,0,0,current_health)
 
-func _process(delta):
+func _process(_delta):
 	if !current:
 		return
 	if Input.is_action_pressed("rightclick"):
