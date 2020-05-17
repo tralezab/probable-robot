@@ -16,6 +16,7 @@ onready var healthhud = get_parent().get_node("Healthbar")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	mode = RigidBody2D.MODE_STATIC
 	pass # Replace with function body.
 
 func _physics_process(delta):
@@ -29,9 +30,11 @@ func _physics_process(delta):
 			$Sprite.flip_v = true
 		else:
 			$Sprite.flip_v = false
-			
+		
 		##REMINDER: SET THE SHRIMP TO SLOWLY LOSE MOMENTUM FOR COLLISIONS
-		linear_velocity = Vector2.ZERO
+		mode = RigidBody2D.MODE_RIGID
+	else:
+		mode = RigidBody2D.MODE_STATIC
 	if direction_to.length() < 10:
 		linear_velocity = Vector2.ZERO
 		destination.global_position = global_position
@@ -40,10 +43,6 @@ func _physics_process(delta):
 	else:
 		linear_velocity = direction_to.clamped(SPEED) * SPEED * delta
 	healthhud.global_position = global_position
-	###DOES NOT WOOOORK
-	var current_health = health / MAX_HEALTH
-	print(current_health)
-	healthhud.modulate = Color(1,0,0,current_health)
 
 func _process(_delta):
 	if !current:
@@ -65,6 +64,9 @@ func attack_move():
 			shramp.health -= attack_damage
 			if shramp.health <= 0:
 				shramp.queue_free()
+			else:
+				print(float(shramp.health/shramp.MAX_HEALTH))
+				shramp.healthhud.modulate = Color(1,0,0,(shramp.MAX_HEALTH - shramp.health) / 100)
 	yield(get_tree().create_timer(0.5), "timeout")
 	attacksprite.visible = false
 
