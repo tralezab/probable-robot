@@ -1,113 +1,75 @@
 extends Control
 
-onready var address = $Address
-onready var port = $Port
-onready var host_button = $HostButton
-onready var join_button = $JoinButton
-onready var status_ok = $StatusOk
-onready var status_fail = $StatusFail
-
 func _ready():
-	# Connect all the callbacks related to networking.
-	get_tree().connect("network_peer_connected", self, "_player_connected")
-	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
-	get_tree().connect("connected_to_server", self, "_connected_ok")
-	get_tree().connect("connection_failed", self, "_connected_fail")
-	get_tree().connect("server_disconnected", self, "_server_disconnected")
-
-#### Network callbacks from SceneTree ####
-
-# Callback from SceneTree.
-func _player_connected(_id):
-	# Someone connected, start the game!
-	var shrimp = load("res://World.tscn").instance()
-	# Connect deferred so we can safely erase it from the callback.
-	shrimp.connect("game_finished", self, "_end_game", [], CONNECT_DEFERRED)
-	
-	get_tree().get_root().add_child(shrimp)
-	get_parent().hide()
-
-
-func _player_disconnected(_id):
-	if get_tree().is_network_server():
-		_end_game("Client disconnected")
+	# Called every time the node is added to the scene.
+	gamestate.connect("connection_failed", self, "_on_connection_failed")
+	gamestate.connect("connection_succeeded", self, "_on_connection_success")
+	gamestate.connect("player_list_changed", self, "refresh_lobby")
+	gamestate.connect("game_ended", self, "_on_game_ended")
+	gamestate.connect("game_error", self, "_on_game_error")
+	# Set the player name according to the system username. Fallback to the path.
+	if OS.has_environment("USERNAME"):
+		$Connect/Name.text = OS.get_environment("USERNAME")
 	else:
-		_end_game("Server disconnected")
-
-
-# Callback from SceneTree, only for clients (not server).
-func _connected_ok():
-	pass # We don't need this function.
-
-
-# Callback from SceneTree, only for clients (not server).
-func _connected_fail():
-	_set_status("Couldn't connect", false)
-	
-	get_tree().set_network_peer(null) # Remove peer.
-	
-	host_button.set_disabled(false)
-	join_button.set_disabled(false)
-
-
-func _server_disconnected():
-	_end_game("Server disconnected")
-
-##### Game creation functions ######
-
-func _end_game(with_error = ""):
-	if has_node("/root/World"):
-		# Erase immediately, otherwise network might show errors (this is why we connected deferred above).
-		get_node("/root/World").free()
-		show()
-	
-	get_tree().set_network_peer(null) # Remove peer.
-	host_button.set_disabled(false)
-	join_button.set_disabled(false)
-	
-	_set_status(with_error, false)
-
-
-func _set_status(text, isok):
-	# Simple way to show status.
-	if isok:
-		status_ok.set_text(text)
-		status_fail.set_text("")
-	else:
-		status_ok.set_text("")
-		status_fail.set_text(text)
-
+		var desktop_path = OS.get_system_dir(0).replace("\\", "/").split("/")
+		$Connect/Name.text = desktop_path[desktop_path.size() - 2]
 
 func _on_host_pressed():
-	var host = NetworkedMultiplayerENet.new()
-	host.set_compression_mode(NetworkedMultiplayerENet.COMPRESS_RANGE_CODER)
-	var err = host.create_server(int(port.get_text()), 1) # Maximum of 1 peer, since it's a 2-player game.
-	if err != OK:
-		# Is another server running?
-		_set_status("Can't host, address in use.",false)
+	if $Connect/Name.text == "":
+		$Connect/ErrorLabel.text = "Invalid name!"
 		return
-	
-	get_tree().set_network_peer(host)
-	host_button.set_disabled(true)
-	join_button.set_disabled(true)
-	_set_status("Waiting for player...", true)
-
+	$Connect.hide()
+	$Players.show()
+	$Connect/ErrorLabel.text = ""
+	var player_name = $Connect/Name.text
+	gamestate.host_game(player_name)
+	refresh_lobby()
 
 func _on_join_pressed():
-	var ip = address.get_text()
-	if not ip.is_valid_ip_address():
-		_set_status("IP address is invalid", false)
+	if $Connect/Name.text == "":
+		$Connect/ErrorLabel.text = "Invalid name!"
 		return
-	
-	var host = NetworkedMultiplayerENet.new()
-	host.set_compression_mode(NetworkedMultiplayerENet.COMPRESS_RANGE_CODER)
-	host.create_client(ip, int(port.get_text()))
-	get_tree().set_network_peer(host)
-	
-	_set_status("Connecting...", true)
+	var ip = $Connect/IPAddress.text
+	var port = $Connect/Port.text
+	if not ip.is_valid_ip_address():
+		$Connect/ErrorLabel.text = "Invalid IP address!"
+		return
+	$Connect/ErrorLabel.text = ""
+	$Connect/Host.disabled = true
+	$Connect/Join.disabled = true
+	var player_name = $Connect/Name.text
+	gamestate.join_game(ip, player_name)
 
-func _on_cheat_pressed():
-	var shrimp = load("res://World.tscn").instance()
-	get_tree().get_root().add_child(shrimp)
-	get_parent().hide()
+func _on_connection_success():
+	$Connect.hide()
+	$Players.show()
 
+func _on_connection_failed():
+	$Connect/Host.disabled = false
+	$Connect/Join.disabled = false
+	$Connect/ErrorLabel.set_text("Connection failed.")
+
+func _on_game_ended():
+	show()
+	$Connect.show()
+	$Players.hide()
+	$Connect/Host.disabled = false
+	$Connect/Join.disabled = false
+
+func _on_game_error(errtxt):
+	$ErrorDialog.dialog_text = errtxt
+	$ErrorDialog.popup_centered_minsize()
+	$Connect/Host.disabled = false
+	$Connect/Join.disabled = false
+
+func refresh_lobby():
+	var players = gamestate.get_player_list()
+	players.sort()
+	$Players/List.clear()
+	$Players/List.add_item(gamestate.get_player_name() + " (You)")
+	for p in players:
+		$Players/List.add_item(p)
+	$Players/Start.disabled = not get_tree().is_network_server()
+
+func _on_start_pressed():
+	gamestate.begin_game()
