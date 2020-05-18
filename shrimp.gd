@@ -20,11 +20,12 @@ func _ready():
 	rotation = deg2rad(rand_range(-180,180))
 	mode = RigidBody2D.MODE_STATIC
 
-func setup_vars():
+func setup_vars(_name):
 	healthhud = get_parent().get_node("bar")
 	healthbar = get_parent().get_node("bar").get_node("health")
 	healthhud.global_position = global_position - Vector2(0, -40)
 	healthbar.modulate = Color(0,1,0,1)
+	$label.name = _name
 	if current:
 		$Camera2D._set_current(true)
 
@@ -82,6 +83,3 @@ func attack_move():
 
 func set_current(boo):
 	current = boo
-
-func set_player_name(new_name):
-	get_node("label").set_text(new_name)

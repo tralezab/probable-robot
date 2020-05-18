@@ -16,7 +16,7 @@ func spawn_shrimp():
 	pickable_shrimps.shuffle()
 	var chosen_shrimp = pickable_shrimps.front().instance()
 	add_child(chosen_shrimp)
-	chosen_shrimp.setup_vars()
+	chosen_shrimp.setup_vars(player_id)
 	current_possessed_shrimp = chosen_shrimp
 	var viewport_size = get_tree().get_root().get_size()
 	var vector_x = rand_range(0, viewport_size.x)
@@ -26,3 +26,5 @@ func spawn_shrimp():
 	if current:
 		$RigidBody2D.set_current(true)
 
+func set_name(new_name):
+	player_id = new_name
