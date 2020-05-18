@@ -9,3 +9,14 @@ position = Vector2( 512.588, 301.752 )
 scale = Vector2( 1.65856, 1.97899 )
 z_index = -1
 texture = ExtResource( 2 )
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="0" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 339.164, 309.637 )
+
+[node name="1" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 554.801, 125.353 )
+
+[node name="2" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 88.211, 188.029 )
