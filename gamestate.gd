@@ -66,24 +66,17 @@ func unregister_player(id):
 	emit_signal("player_list_changed")
 
 
-remote func pre_start_game(spawn_points):
+remote func pre_start_game(player_nodes):
 	# Change scene.
 	var world = load("res://World.tscn").instance()
 	get_tree().get_root().add_child(world)
 
 	get_tree().get_root().get_node("Lobby").hide()
 
-	var player_scene = load("res://Shrimp.tscn")
-
-	for p_id in spawn_points:
-		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
-		var player = player_scene.instance()
-
-		player.set_name(str(p_id)) # Use unique ID as node name.
-		player.position=spawn_pos
-		player.set_network_master(p_id) #set unique id as master.
-
-		world.get_node("Shrimp").add_child(player)
+	for node in player_nodes:
+		node.spawn_shrimp()
+		node.set_network_master(node.name) #set unique id as master.
+		world.add_child(node)
 
 	if not get_tree().is_network_server():
 		# Tell server we are ready to start.
@@ -133,18 +126,17 @@ func get_player_name():
 func begin_game():
 	assert(get_tree().is_network_server())
 
-	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
-	var spawn_points = {}
-	spawn_points[1] = 0 # Server in spawn point 0.
-	var spawn_point_idx = 1
+	#what node each person has
+	var player_nodes = {}
+	var spawn_index = 1
 	for p in players:
-		spawn_points[p] = spawn_point_idx
-		spawn_point_idx += 1
+		var mind = load("res://shrimp.tscn").instance() #"mind" for player
+		player_nodes[p] = mind
 	# Call to pre-start game with the spawn points.
 	for p in players:
-		rpc_id(p, "pre_start_game", spawn_points)
+		rpc_id(p, "pre_start_game", player_nodes)
 
-	pre_start_game(spawn_points)
+	pre_start_game(player_nodes)
 
 
 func end_game():
