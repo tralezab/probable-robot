@@ -41,3 +41,12 @@ texture = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack_Area"]
 position = Vector2( 43.9219, 0 )
 shape = SubResource( 3 )
+
+[node name="label" type="Label" parent="."]
+margin_left = -25.0
+margin_top = 25.0
+margin_right = 25.0
+margin_bottom = 25.0
+__meta__ = {
+"_edit_use_anchors_": false
+}

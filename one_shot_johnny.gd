@@ -82,3 +82,6 @@ func attack_move():
 
 func set_current(boo):
 	current = boo
+
+func set_player_name(new_name):
+	get_node("label").set_text(new_name)

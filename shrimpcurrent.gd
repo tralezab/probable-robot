@@ -3,6 +3,7 @@ extends Node2D
 #imsxz, this script handles the player's """MIND""" essentially it lets them pick a shrimp after their shrimp dies.
 
 export var current = false
+var player_id = null
 var current_possessed_shrimp = null
 
 var test_shrimp = preload("res://testing_shrimp.tscn")

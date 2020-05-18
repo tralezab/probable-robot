@@ -19,7 +19,6 @@ var healthbar = null
 func _ready():
 	rotation = deg2rad(rand_range(-180,180))
 	mode = RigidBody2D.MODE_STATIC
-	pass # Replace with function body.
 
 func setup_vars():
 	healthhud = get_parent().get_node("bar")
@@ -83,3 +82,6 @@ func attack_move():
 
 func set_current(boo):
 	current = boo
+
+func set_player_name(new_name):
+	get_node("label").set_text(new_name)
