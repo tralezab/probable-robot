@@ -68,12 +68,12 @@ func unregister_player(id):
 
 remote func pre_start_game(spawn_points):
 	# Change scene.
-	var world = load("res://world.tscn").instance()
+	var world = load("res://World.tscn").instance()
 	get_tree().get_root().add_child(world)
 
 	get_tree().get_root().get_node("Lobby").hide()
 
-	var player_scene = load("res://player.tscn")
+	var player_scene = load("res://Shrimp.tscn")
 
 	for p_id in spawn_points:
 		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
@@ -83,19 +83,7 @@ remote func pre_start_game(spawn_points):
 		player.position=spawn_pos
 		player.set_network_master(p_id) #set unique id as master.
 
-		if p_id == get_tree().get_network_unique_id():
-			# If node for this peer id, set name.
-			player.set_player_name(player_name)
-		else:
-			# Otherwise set name from peer.
-			player.set_player_name(players[p_id])
-
-		world.get_node("Players").add_child(player)
-
-	# Set up score.
-	world.get_node("Score").add_player(get_tree().get_network_unique_id(), player_name)
-	for pn in players:
-		world.get_node("Score").add_player(pn, players[pn])
+		world.get_node("Shrimp").add_child(player)
 
 	if not get_tree().is_network_server():
 		# Tell server we are ready to start.
