@@ -1,18 +1,27 @@
 extends Node2D
 
+#imsxz, this script handles the player's """MIND""" essentially it lets them pick a shrimp after their shrimp dies.
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 export var current = false
+var current_possessed_shrimp = null
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
+var test_shrimp = preload("res://testing_shrimp.tscn")
+var one_shot_johnny = preload("res://one_shot_johnny.tscn")
+
+#called by world setup and when shrimp die
+func spawn_shrimp():
+	randomize()
+	var pickable_shrimps = [test_shrimp, one_shot_johnny]
+	pickable_shrimps.shuffle()
+	var chosen_shrimp = pickable_shrimps.front().instance()
+	add_child(chosen_shrimp)
+	chosen_shrimp.setup_vars()
+	current_possessed_shrimp = chosen_shrimp
+	var viewport_size = get_tree().get_root().get_size()
+	var vector_x = rand_range(0, viewport_size.x)
+	var vector_y = rand_range(0, viewport_size.y)
+	global_position = Vector2(vector_x,vector_y) 
+	#if !current: need to add the code where bots autospawn
 	if current:
 		$RigidBody2D.set_current(true)
-	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

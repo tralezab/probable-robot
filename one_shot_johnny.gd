@@ -1,13 +1,13 @@
 extends RigidBody2D
 
 export var current = false
-const SPEED = 150
-const MAX_HEALTH = 100
-var health = 100
+const SPEED = 200
+const MAX_HEALTH = 1
+var health = 1
 
 const ATTACK_COOLDOWN = 50
 var attack_timer = 0
-var attack_damage = 25
+var attack_damage = 999
 onready var attacksprite = $Attack
 onready var attackarea = $Attack_Area
 
