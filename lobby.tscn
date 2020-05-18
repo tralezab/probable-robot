@@ -146,6 +146,7 @@ __meta__ = {
 position = Vector2( 320, 201.895 )
 scale = Vector2( 1.95455, 1.95455 )
 z_index = -1
+z_as_relative = false
 texture = ExtResource( 2 )
 
 [node name="Panel" type="Panel" parent="."]

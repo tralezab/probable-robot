@@ -107,7 +107,7 @@ func _on_join_pressed():
 	_set_status("Connecting...", true)
 
 func _on_cheat_pressed():
-	var shrimp = load("res://World.tscn").instance()
-	get_tree().get_root().add_child(shrimp)
+	var world = load("res://World.tscn").instance()
+	get_tree().get_root().add_child(world)
 	get_parent().hide()
 

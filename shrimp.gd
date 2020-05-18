@@ -7,17 +7,25 @@ var health = 100
 
 const ATTACK_COOLDOWN = 50
 var attack_timer = 0
-var attack_damage = 50
+var attack_damage = 25
 onready var attacksprite = $Attack
 onready var attackarea = $Attack_Area
 
 onready var destination = get_parent().get_node("Destination")
-onready var healthhud = get_parent().get_node("Healthbar")
+var healthhud = null
+var healthbar = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	mode = RigidBody2D.MODE_STATIC
 	pass # Replace with function body.
+
+func setup_vars():
+	healthhud = get_parent().get_node("bar")
+	healthbar = get_parent().get_node("bar").get_node("health")
+	healthhud.global_position = global_position - Vector2(0, -40)
+	healthbar.modulate = Color(0,1,0,1)
+	pass
 
 func _physics_process(delta):
 	attack_timer -= 1
@@ -42,7 +50,7 @@ func _physics_process(delta):
 		pass
 	else:
 		linear_velocity = direction_to.clamped(SPEED) * SPEED * delta
-	healthhud.global_position = global_position
+	healthhud.global_position = global_position - Vector2(0, -40)
 
 func _process(_delta):
 	if !current:
@@ -62,11 +70,12 @@ func attack_move():
 			continue
 		if shramp is RigidBody2D:
 			shramp.health -= attack_damage
+			var percentage = float(shramp.health)/float(shramp.MAX_HEALTH)
+			shramp.healthbar.modulate = Color(1 - percentage,percentage,0,1)
 			if shramp.health <= 0:
+				shramp.get_parent().spawn_shrimp()
 				shramp.queue_free()
-			else:
-				print(float(shramp.health/shramp.MAX_HEALTH))
-				shramp.healthhud.modulate = Color(1,0,0,(shramp.MAX_HEALTH - shramp.health) / 100)
+				#shramp.healthhud.modulate = Color(0,0,0,0)
 	yield(get_tree().create_timer(0.5), "timeout")
 	attacksprite.visible = false
 
