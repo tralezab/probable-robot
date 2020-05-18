@@ -1,7 +1,9 @@
 extends Control
+var gamestate
 
 func _ready():
 	# Called every time the node is added to the scene.
+	gamestate = load("res://gamestate.gd")
 	gamestate.connect("connection_failed", self, "_on_connection_failed")
 	gamestate.connect("connection_succeeded", self, "_on_connection_success")
 	gamestate.connect("player_list_changed", self, "refresh_lobby")
@@ -38,7 +40,7 @@ func _on_join_pressed():
 	$Connect/Host.disabled = true
 	$Connect/Join.disabled = true
 	var player_name = $Connect/Name.text
-	gamestate.join_game(ip, player_name)
+	gamestate.join_game(ip, player_name, port)
 
 func _on_connection_success():
 	$Connect.hide()
