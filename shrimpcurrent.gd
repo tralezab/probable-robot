@@ -6,10 +6,14 @@ export var current = false
 var current_possessed_shrimp = null
 
 var test_shrimp = preload("res://testing_shrimp.tscn")
+var one_shot_johnny = preload("res://one_shot_johnny.tscn")
 
 #called by world setup and when shrimp die
 func spawn_shrimp():
-	var chosen_shrimp = test_shrimp.instance()
+	randomize()
+	var pickable_shrimps = [test_shrimp, one_shot_johnny]
+	pickable_shrimps.shuffle()
+	var chosen_shrimp = pickable_shrimps.front().instance()
 	add_child(chosen_shrimp)
 	chosen_shrimp.setup_vars()
 	current_possessed_shrimp = chosen_shrimp

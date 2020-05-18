@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://lobby.gd" type="Script" id=1]
-[ext_resource path="res://background.jpg" type="Texture" id=2]
+[ext_resource path="res://title.png" type="Texture" id=2]
 
 [node name="Lobby" type="Control"]
 anchor_left = 0.5
@@ -25,7 +25,21 @@ margin_right = 430.0
 margin_bottom = 80.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-text = "Multiplayer NOT Pong"
+text = "BATTLE SHRIMPS"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title2" type="Label" parent="."]
+margin_left = 210.0
+margin_top = 92.0
+margin_right = 430.0
+margin_bottom = 132.0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "made by imsxz, arm, and chie teal"
 align = 1
 valign = 1
 __meta__ = {
@@ -33,9 +47,9 @@ __meta__ = {
 }
 
 [node name="LobbyPanel" type="Panel" parent="."]
-margin_left = 210.0
-margin_top = 160.0
-margin_right = 430.0
+margin_left = 208.0
+margin_top = 156.0
+margin_right = 432.0
 margin_bottom = 437.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
@@ -146,8 +160,8 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 320, 201.895 )
-scale = Vector2( 1.95455, 1.95455 )
+position = Vector2( 320, 200 )
+scale = Vector2( 32, 6.31579 )
 z_index = -1
 z_as_relative = false
 texture = ExtResource( 2 )
@@ -158,6 +172,16 @@ margin_left = 210.0
 margin_top = 40.0
 margin_right = 430.0
 margin_bottom = 80.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="."]
+show_behind_parent = true
+margin_left = 200.0
+margin_top = 92.0
+margin_right = 440.0
+margin_bottom = 132.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
