@@ -73,6 +73,9 @@ margin_bottom = 54.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "127.0.0.1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Port" type="LineEdit" parent="LobbyPanel"]
 margin_left = 10.0

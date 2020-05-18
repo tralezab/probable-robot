@@ -109,5 +109,12 @@ func _on_join_pressed():
 func _on_cheat_pressed():
 	var world = load("res://World.tscn").instance()
 	get_tree().get_root().add_child(world)
+	var player = load("res://shrimp.tscn").instance()
+	world.add_child(player)
+	player.current = true
+	player.spawn_shrimp()
+	var bot = load("res://shrimp.tscn").instance()
+	world.add_child(bot)
+	bot.spawn_shrimp()
 	get_parent().hide()
 

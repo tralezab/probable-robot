@@ -7,10 +7,7 @@ var current_possessed_shrimp = null
 
 var test_shrimp = preload("res://testing_shrimp.tscn")
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	spawn_shrimp()
-	
+#called by world setup and when shrimp die
 func spawn_shrimp():
 	var chosen_shrimp = test_shrimp.instance()
 	add_child(chosen_shrimp)
