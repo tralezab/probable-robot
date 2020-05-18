@@ -17,6 +17,7 @@ var healthbar = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	rotation = deg2rad(rand_range(-180,180))
 	mode = RigidBody2D.MODE_STATIC
 	pass # Replace with function body.
 
@@ -25,7 +26,8 @@ func setup_vars():
 	healthbar = get_parent().get_node("bar").get_node("health")
 	healthhud.global_position = global_position - Vector2(0, -40)
 	healthbar.modulate = Color(0,1,0,1)
-	pass
+	if current:
+		$Camera2D._set_current(true)
 
 func _physics_process(delta):
 	attack_timer -= 1
