@@ -3,7 +3,8 @@ extends Node2D
 #imsxz, this script handles the player's """MIND""" essentially it lets them pick a shrimp after their shrimp dies.
 
 export var current = false
-var player_id = null
+var player_id = ""
+var player_name = ""
 var current_possessed_shrimp = null
 
 var test_shrimp = preload("res://testing_shrimp.tscn")
@@ -16,7 +17,7 @@ func spawn_shrimp():
 	pickable_shrimps.shuffle()
 	var chosen_shrimp = pickable_shrimps.front().instance()
 	add_child(chosen_shrimp)
-	chosen_shrimp.setup_vars(player_id)
+	chosen_shrimp.setup_vars(player_name)
 	current_possessed_shrimp = chosen_shrimp
 	var viewport_size = get_tree().get_root().get_size()
 	var vector_x = rand_range(0, viewport_size.x)
@@ -24,7 +25,10 @@ func spawn_shrimp():
 	global_position = Vector2(vector_x,vector_y) 
 	#if !current: need to add the code where bots autospawn
 	if current:
-		$RigidBody2D.set_current(true)
+		$Shrimp.set_current(true)
+
+func set_id(new_id):
+	player_id = new_id
 
 func set_name(new_name):
-	player_id = new_name
+	player_name = new_name

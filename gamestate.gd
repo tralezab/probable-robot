@@ -78,8 +78,9 @@ remote func pre_start_game(spawn_points):
 	for p_id in spawn_points:
 		var player = player_scene.instance()
 		
-
-		player.set_name(str(p_id)) # Use unique ID as node name.
+		player.current = true
+		player.set_id(str(p_id)) # Use unique ID as node name.
+		player.set_name(player_name) # Add a name for in game labels
 		player.set_network_master(p_id) #set unique id as master.
 
 		world.add_child(player)

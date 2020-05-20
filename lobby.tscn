@@ -174,6 +174,9 @@ margin_top = -96.5
 margin_right = 330.5
 margin_bottom = -48.5
 custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 margin_right = 55.0

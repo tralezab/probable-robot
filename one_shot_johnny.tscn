@@ -2,7 +2,7 @@
 
 [ext_resource path="res://shrimpicons/shrimps.png" type="Texture" id=1]
 [ext_resource path="res://attack.png" type="Texture" id=2]
-[ext_resource path="res://one_shot_johnny.gd" type="Script" id=3]
+[ext_resource path="res://johnny.gd" type="Script" id=3]
 
 [sub_resource type="PhysicsMaterial" id=1]
 
@@ -13,7 +13,7 @@ extents = Vector2( 53.8768, 32 )
 radius = 16.0
 height = 16.0
 
-[node name="RigidBody2D" type="RigidBody2D"]
+[node name="Shrimp" type="RigidBody2D"]
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 script = ExtResource( 3 )
@@ -43,11 +43,11 @@ texture = ExtResource( 2 )
 position = Vector2( 69.8753, 0 )
 shape = SubResource( 3 )
 
-[node name="label" type="Label" parent="."]
-margin_left = -20.0
-margin_top = -47.0
-margin_right = 20.0
-margin_bottom = -33.0
+[node name="Label" type="Label" parent="."]
+margin_left = -19.4582
+margin_top = 50.962
+margin_right = 20.5418
+margin_bottom = 64.962
 __meta__ = {
 "_edit_use_anchors_": false
 }

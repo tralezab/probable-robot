@@ -25,3 +25,58 @@ modulate = Color( 0, 1, 0, 1 )
 position = Vector2( 1.54972e-06, 0 )
 scale = Vector2( 0.9375, 0.8 )
 texture = ExtResource( 6 )
+
+[node name="HUD" type="Control" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="HUD"]
+margin_right = 167.0
+margin_bottom = 96.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Previous" type="Button" parent="HUD/Panel"]
+margin_left = 12.0
+margin_top = 65.6718
+margin_right = 79.0
+margin_bottom = 85.6718
+text = "Previous"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Next" type="Button" parent="HUD/Panel"]
+margin_left = 86.7492
+margin_top = 65.6718
+margin_right = 153.749
+margin_bottom = 85.6718
+text = "Next"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Selected" type="Label" parent="HUD/Panel"]
+margin_left = 12.0
+margin_top = 34.0
+margin_right = 154.0
+margin_bottom = 48.0
+text = "Rictor Mortis"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="HUD/Panel"]
+margin_left = 12.0
+margin_top = 12.0
+margin_right = 154.0
+margin_bottom = 26.0
+text = "Currently Selected:"
+__meta__ = {
+"_edit_use_anchors_": false
+}

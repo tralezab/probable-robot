@@ -1,11 +1,12 @@
 extends RigidBody2D
+class_name Shrimp, "res://shrimpclass_icon.png"
 
 export var current = false
-const SPEED = 150
-const MAX_HEALTH = 100
+var speed = 150
+var max_health = 100
 var health = 100
 
-const ATTACK_COOLDOWN = 50
+var attack_cooldown = 50
 var attack_timer = 0
 var attack_damage = 25
 onready var attacksprite = $Attack
@@ -25,7 +26,7 @@ func setup_vars(_name):
 	healthbar = get_parent().get_node("bar").get_node("health")
 	healthhud.global_position = global_position - Vector2(0, -40)
 	healthbar.modulate = Color(0,1,0,1)
-	$label.name = _name
+	$Label.set_text(_name)
 	if current:
 		$Camera2D._set_current(true)
 
@@ -51,7 +52,7 @@ func _physics_process(delta):
 		destination.visible = false
 		pass
 	else:
-		linear_velocity = direction_to.clamped(SPEED) * SPEED * delta
+		linear_velocity = direction_to.clamped(speed) * speed * delta
 	healthhud.global_position = global_position - Vector2(0, -40)
 
 func _process(_delta):
@@ -64,7 +65,7 @@ func _process(_delta):
 		attack_move()
 
 func attack_move():
-	attack_timer = ATTACK_COOLDOWN
+	attack_timer = attack_cooldown
 	attacksprite.visible = true
 	var attacked = attackarea.get_overlapping_bodies()
 	for shramp in attacked:
