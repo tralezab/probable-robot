@@ -15,6 +15,7 @@ onready var attackarea = $Attack_Area
 onready var destination = get_parent().get_node("Destination")
 var healthhud = null
 var healthbar = null
+var namelabel = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -24,9 +25,10 @@ func _ready():
 func setup_vars(_name):
 	healthhud = get_parent().get_node("bar")
 	healthbar = get_parent().get_node("bar").get_node("health")
+	namelabel = get_parent().get_node("bar").get_node("namelabel")
 	healthhud.global_position = global_position - Vector2(0, -40)
 	healthbar.modulate = Color(0,1,0,1)
-	$Label.set_text(_name)
+	namelabel.set_text(_name)
 	if current:
 		$Camera2D._set_current(true)
 
