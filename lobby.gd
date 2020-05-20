@@ -75,7 +75,7 @@ func _pick_name():
 	var possible_names = [
 		"Prawny Brawler", "Supreme Shrimp", "Fishy Fighter",
 		"Crustacaen Colossus", "Pathetic Squirt", "Twisted Twerp",
-		"Maritime Martini", "Larry Lobster"
+		"Maritime Martini", "Larry Lobster", "Poggers Crab"
 	]
 	possible_names.shuffle()
 	return possible_names.front()
