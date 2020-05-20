@@ -8,11 +8,7 @@ func _ready():
 	gamestate.connect("game_ended", self, "_on_game_ended")
 	gamestate.connect("game_error", self, "_on_game_error")
 	# Set the player name according to the system username. Fallback to the path.
-	if OS.has_environment("USERNAME"):
-		$Connect/Name.text = OS.get_environment("USERNAME")
-	else:
-		var desktop_path = OS.get_system_dir(0).replace("\\", "/").split("/")
-		$Connect/Name.text = desktop_path[desktop_path.size() - 2]
+	$Connect/Name.text = _pick_name()
 
 func _on_host_pressed():
 	if $Connect/Name.text == "":
@@ -74,3 +70,12 @@ func refresh_lobby():
 
 func _on_start_pressed():
 	gamestate.begin_game()
+
+func _pick_name():
+	var possible_names = [
+		"Prawny Brawler", "Supreme Shrimp", "Fishy Fighter",
+		"Crustacaen Colossus", "Pathetic Squirt", "Twisted Twerp",
+		"Maritime Martini", "Larry Lobster"
+	]
+	possible_names.shuffle()
+	return possible_names.front()
