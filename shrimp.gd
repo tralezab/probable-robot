@@ -13,20 +13,26 @@ onready var attacksprite = $Attack
 onready var attackarea = $Attack_Area
 
 onready var destination = get_parent().get_node("Destination")
-var healthhud = null
+var healthbox = null
 var healthbar = null
+var namepanel = null
+var namelabel = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rotation = deg2rad(rand_range(-180,180))
 	mode = RigidBody2D.MODE_STATIC
 
-func setup_vars(_name):
-	healthhud = get_parent().get_node("bar")
-	healthbar = get_parent().get_node("bar").get_node("health")
-	healthhud.global_position = global_position - Vector2(0, -40)
+func setup_vars():
+	healthbox = get_parent().get_node("bar")
+	healthbar = healthbox.get_node("health")
+	healthbox.global_position = global_position - Vector2(0, -40)
 	healthbar.modulate = Color(0,1,0,1)
-	$Label.set_text(_name)
+	
+	namepanel = healthbox.get_node("Panel")
+	namelabel = namepanel.get_node("Label")
+	namelabel.set_text(get_parent().player_name)
+
 	if current:
 		$Camera2D._set_current(true)
 
@@ -53,7 +59,7 @@ func _physics_process(delta):
 		pass
 	else:
 		linear_velocity = direction_to.clamped(speed) * speed * delta
-	healthhud.global_position = global_position - Vector2(0, -40)
+	healthbox.global_position = global_position - Vector2(0, -40)
 
 func _process(_delta):
 	if !current:
@@ -78,7 +84,6 @@ func attack_move():
 			if shramp.health <= 0:
 				shramp.get_parent().spawn_shrimp()
 				shramp.queue_free()
-				#shramp.healthhud.modulate = Color(0,0,0,0)
 	yield(get_tree().create_timer(0.5), "timeout")
 	attacksprite.visible = false
 
