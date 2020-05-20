@@ -77,5 +77,6 @@ func _pick_name():
 		"Crustacaen Colossus", "Pathetic Squirt", "Twisted Twerp",
 		"Maritime Martini", "Larry Lobster", "Poggers Crab"
 	]
+	randomize()
 	possible_names.shuffle()
 	return possible_names.front()
