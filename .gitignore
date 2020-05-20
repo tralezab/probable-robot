@@ -1,0 +1,6 @@
+#Ignore compiled files and other files generated during compilation.
+*.tres
+*.cfg
+*.exe
+*.TMP
+*.pck
