@@ -1,7 +1,6 @@
 extends RigidBody2D
 class_name Shrimp, "res://shrimpclass_icon.png"
 
-export var current = false
 var speed = 150
 var max_health = 100
 var health = 100
@@ -18,8 +17,16 @@ var healthbar = null
 var namepanel = null
 var namelabel = null
 
+puppet var puppet_pos = Vector2()
+puppet var puppet_motion = Vector2()
+puppet var puppet_rotation = 0
+puppet var puppet_flip_v = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	rset("puppet_motion", linear_velocity)
+	rset("puppet_pos", position)
+	rset("puppet_rotation", rotation)
 	rotation = deg2rad(rand_range(-180,180))
 	mode = RigidBody2D.MODE_STATIC
 
@@ -31,37 +38,41 @@ func setup_vars():
 	
 	namepanel = healthbox.get_node("Panel")
 	namelabel = namepanel.get_node("Label")
-	namelabel.set_text(get_parent().player_name)
-
-	if current:
-		$Camera2D._set_current(true)
+	#namelabel.set_text(get_parent().player_name)
 
 func _physics_process(delta):
-	attack_timer -= 1
-	if !current:
-		return
-	var direction_to = destination.global_position - global_position
-	if destination.visible != false:
-		rotation = direction_to.angle()
-		if abs(rad2deg(rotation)) > 90:
-			$Sprite.flip_v = true
+	
+	if is_network_master():
+		attack_timer -= 1
+		var direction_to = destination.global_position - global_position
+		if destination.visible != false:
+			rotation = direction_to.angle()
+			if abs(rad2deg(rotation)) > 90:
+				$Sprite.flip_v = true
+			else:
+				$Sprite.flip_v = false
+			rset("puppet_flip_v", $Sprite.flip_v)
+			##REMINDER: SET THE SHRIMP TO SLOWLY LOSE MOMENTUM FOR COLLISIONS
+			mode = RigidBody2D.MODE_RIGID
 		else:
-			$Sprite.flip_v = false
-		
-		##REMINDER: SET THE SHRIMP TO SLOWLY LOSE MOMENTUM FOR COLLISIONS
-		mode = RigidBody2D.MODE_RIGID
+			mode = RigidBody2D.MODE_STATIC
+		if direction_to.length() < 10:
+			linear_velocity = Vector2.ZERO
+			self.rpc("set_target_position", null)
+		else:
+			linear_velocity = direction_to.clamped(speed) * speed * delta
+		healthbox.global_position = global_position - Vector2(0, -40)
+		rset("puppet_motion", linear_velocity)
+		rset("puppet_pos", position)
+		rset("puppet_rotation", rotation)
 	else:
-		mode = RigidBody2D.MODE_STATIC
-	if direction_to.length() < 10:
-		linear_velocity = Vector2.ZERO
-		self.rpc("set_target_position", null)
-		pass
-	else:
-		linear_velocity = direction_to.clamped(speed) * speed * delta
-	healthbox.global_position = global_position - Vector2(0, -40)
+		position = puppet_pos
+		linear_velocity = puppet_motion
+		rotation = puppet_rotation
+		$Sprite.flip_v = puppet_flip_v
 
 func _process(_delta):
-	if !current || !is_network_master():
+	if!is_network_master():
 		return
 	if Input.is_action_pressed("rightclick"):
 		self.rpc("set_target_position", get_global_mouse_position())
@@ -102,6 +113,3 @@ remotesync func display_attacksprite(time):
 	attacksprite.visible = true
 	yield(get_tree().create_timer(time), "timeout")
 	attacksprite.visible = false
-
-func set_current(boo):
-	current = boo

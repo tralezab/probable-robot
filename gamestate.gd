@@ -66,8 +66,9 @@ func unregister_player(id):
 	emit_signal("player_list_changed")
 
 
-remote func pre_start_game(spawn_points):
+remote func pre_start_game(spawning_positions_for_players):
 	# Change scene.
+	print(spawning_positions_for_players)
 	var world = load("res://World.tscn").instance()
 	get_tree().get_root().add_child(world)
 
@@ -75,18 +76,25 @@ remote func pre_start_game(spawn_points):
 
 	var player_scene = load("res://shrimp.tscn")
 
-	for p_id in spawn_points:
+	for p_id in spawning_positions_for_players:
 		var player = player_scene.instance()
 		
-		player.current = true
-		player.set_id(str(p_id)) # Use unique ID as node name.
-		player.set_name(players.get(p_id)) # Add a name for in game labels
-		if get_tree().is_network_server():
-			player.set_name(player_name)
-		player.set_network_master(p_id) #set unique id as master.
+		player.global_position = spawning_positions_for_players[p_id]
+		
+		#if p_id == get_tree().get_network_unique_id():
+		#	# If node for this peer id, set name.
+		#	player.set_player_name(player_name)
+		#else:
+		#	# Otherwise set name from peer.
+		#	player.set_player_name(players[p_id])
+		player.spawn_shrimp()
+		player.shrimp.set_network_master(p_id) #set unique id as master.
 
 		world.add_child(player)
-		player.spawn_shrimp()
+
+	if not get_tree().is_network_server():
+		# Tell server we are ready to start.
+		rpc_id(1, "ready_to_start", get_tree().get_network_unique_id())
 
 	if not get_tree().is_network_server():
 		# Tell server we are ready to start.
@@ -136,18 +144,18 @@ func get_player_name():
 func begin_game():
 	assert(get_tree().is_network_server())
 
-	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
-	var spawn_points = {}
-	spawn_points[1] = 0 # Server in spawn point 0.
-	var spawn_point_idx = 1
-	for p in players:
-		spawn_points[p] = spawn_point_idx
-		spawn_point_idx += 1
-	# Call to pre-start game with the spawn points.
-	for p in players:
-		rpc_id(p, "pre_start_game", spawn_points)
-
-	pre_start_game(spawn_points)
+	# Create a dictionary with peer id and a coordinate for them to move on
+	var spawning_positions_for_players = {}
+	var spawnx = 200
+	var spawny = 200
+	spawning_positions_for_players[1] = Vector2(spawnx,spawny) #reserved for server itself
+	spawnx += 200
+	for player_id in players:
+		spawning_positions_for_players[player_id] = Vector2(spawnx,spawny)
+		spawnx += 200
+	for peer in players:
+		rpc_id(peer, "pre_start_game", spawning_positions_for_players)
+	pre_start_game(spawning_positions_for_players)
 
 
 func end_game():
