@@ -80,7 +80,9 @@ remote func pre_start_game(spawn_points):
 		
 		player.current = true
 		player.set_id(str(p_id)) # Use unique ID as node name.
-		player.set_name(player_name) # Add a name for in game labels
+		player.set_name(players.get(p_id)) # Add a name for in game labels
+		if get_tree().is_network_server():
+			player.set_name(player_name)
 		player.set_network_master(p_id) #set unique id as master.
 
 		world.add_child(player)
