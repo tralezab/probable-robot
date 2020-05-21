@@ -54,21 +54,27 @@ func _physics_process(delta):
 		mode = RigidBody2D.MODE_STATIC
 	if direction_to.length() < 10:
 		linear_velocity = Vector2.ZERO
-		destination.global_position = global_position
-		destination.visible = false
+		self.rpc("set_target_position", null)
 		pass
 	else:
 		linear_velocity = direction_to.clamped(speed) * speed * delta
 	healthbox.global_position = global_position - Vector2(0, -40)
 
 func _process(_delta):
-	if !current:
+	if !current || !is_network_master():
 		return
 	if Input.is_action_pressed("rightclick"):
-		destination.global_position = get_global_mouse_position()
-		destination.visible = true
+		self.rpc("set_target_position", get_global_mouse_position())
 	if Input.is_action_just_pressed("leftclick") and attack_timer <= 0:
 		attack_move()
+
+remotesync func set_target_position(set_position):
+	if set_position != null:
+		destination.global_position = set_position
+		destination.visible = true
+		return
+	destination.global_position = global_position
+	destination.visible = false
 
 func attack_move():
 	attack_timer = attack_cooldown
