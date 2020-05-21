@@ -81,19 +81,26 @@ remotesync func set_target_position(set_position):
 
 func attack_move():
 	attack_timer = attack_cooldown
-	attacksprite.visible = true
+	rpc("display_attacksprite", 0.5)
 	var attacked = attackarea.get_overlapping_bodies()
 	for shramp in attacked:
 		if shramp == attackarea.get_parent():
 			continue
-		if shramp is RigidBody2D:
-			shramp.health -= attack_damage
-			var percentage = float(shramp.health)/float(shramp.MAX_HEALTH)
-			shramp.healthbar.modulate = Color(1 - percentage,percentage,0,1)
-			if shramp.health <= 0:
-				shramp.get_parent().spawn_shrimp()
-				shramp.queue_free()
-	yield(get_tree().create_timer(0.5), "timeout")
+		# Can't reference your own class. At least this won't crash
+		if shramp.has_method("adjust_health"):
+			shramp.rpc("adjust_health",-attack_damage)
+
+remotesync func adjust_health(amount):
+	health += min(amount, max_health)
+	var percentage = float(health)/float(max_health)
+	healthbar.modulate = Color(1 - percentage,percentage,0,1)
+	if health <= 0:
+		get_parent().spawn_shrimp()
+		queue_free()
+
+remotesync func display_attacksprite(time):
+	attacksprite.visible = true
+	yield(get_tree().create_timer(time), "timeout")
 	attacksprite.visible = false
 
 func set_current(boo):
