@@ -70,7 +70,10 @@ func _process(_delta):
 
 remotesync func set_target_position(set_position):
 	if set_position != null:
-		destination.global_position = set_position
+		# No out of bounds action
+		var mouse_pos = get_global_mouse_position()
+		var world_size = get_viewport().size
+		destination.global_position = Vector2(clamp(mouse_pos[0],0,world_size[0]),clamp(mouse_pos[1],0,world_size[1]))
 		destination.visible = true
 		return
 	destination.global_position = global_position
