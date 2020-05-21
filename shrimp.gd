@@ -59,7 +59,10 @@ func _process(_delta):
 	if !current:
 		return
 	if Input.is_action_pressed("rightclick"):
-		destination.global_position = get_global_mouse_position()
+		# No out of bounds action
+		var mouse_pos = get_global_mouse_position()
+		var world_size = get_viewport().size
+		destination.global_position = Vector2(clamp(mouse_pos[0],0,world_size[0]),clamp(mouse_pos[1],0,world_size[1]))
 		destination.visible = true
 	if Input.is_action_just_pressed("leftclick") and attack_timer <= 0:
 		attack_move()
