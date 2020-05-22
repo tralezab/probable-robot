@@ -26,23 +26,6 @@ position = Vector2( 1.54972e-06, 0 )
 scale = Vector2( 0.9375, 0.8 )
 texture = ExtResource( 6 )
 
-[node name="Panel" type="Panel" parent="bar"]
-margin_left = -6.0
-margin_top = 11.6306
-margin_right = 6.0
-margin_bottom = 29.6306
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="bar/Panel"]
-margin_top = 2.0
-margin_right = 12.0
-margin_bottom = 16.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="HUD" type="Control" parent="."]
 visible = false
 margin_right = 40.0

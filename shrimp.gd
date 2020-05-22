@@ -14,19 +14,15 @@ onready var attackarea = $Attack_Area
 onready var destination = get_parent().get_node("Destination")
 var healthbox = null
 var healthbar = null
-var namepanel = null
-var namelabel = null
 
+puppet var puppet_healthbox_position = Vector2()
 puppet var puppet_pos = Vector2()
 puppet var puppet_motion = Vector2()
 puppet var puppet_rotation = 0
-puppet var puppet_flip_v = false
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	rset("puppet_motion", linear_velocity)
-	rset("puppet_pos", position)
-	rset("puppet_rotation", rotation)
 	rotation = deg2rad(rand_range(-180,180))
 	mode = RigidBody2D.MODE_STATIC
 
@@ -36,22 +32,18 @@ func setup_vars():
 	healthbox.global_position = global_position - Vector2(0, -40)
 	healthbar.modulate = Color(0,1,0,1)
 	
-	namepanel = healthbox.get_node("Panel")
-	namelabel = namepanel.get_node("Label")
-	#namelabel.set_text(get_parent().player_name)
+	#RSETS
+	rset("puppet_healthbox_position", healthbox.global_position)
+	rset("puppet_motion", linear_velocity)
+	rset("puppet_pos", position)
+	rset("puppet_rotation", rotation)
 
 func _physics_process(delta):
-	
 	if is_network_master():
 		attack_timer -= 1
 		var direction_to = destination.global_position - global_position
 		if destination.visible != false:
 			rotation = direction_to.angle()
-			if abs(rad2deg(rotation)) > 90:
-				$Sprite.flip_v = true
-			else:
-				$Sprite.flip_v = false
-			rset("puppet_flip_v", $Sprite.flip_v)
 			##REMINDER: SET THE SHRIMP TO SLOWLY LOSE MOMENTUM FOR COLLISIONS
 			mode = RigidBody2D.MODE_RIGID
 		else:
@@ -62,14 +54,20 @@ func _physics_process(delta):
 		else:
 			linear_velocity = direction_to.clamped(speed) * speed * delta
 		healthbox.global_position = global_position - Vector2(0, -40)
+		rset("puppet_healthbox_position", healthbox.global_position)
 		rset("puppet_motion", linear_velocity)
 		rset("puppet_pos", position)
 		rset("puppet_rotation", rotation)
 	else:
+		healthbox.global_position = puppet_healthbox_position
 		position = puppet_pos
 		linear_velocity = puppet_motion
 		rotation = puppet_rotation
-		$Sprite.flip_v = puppet_flip_v
+
+	if abs(rad2deg(rotation)) > 90:
+		$Sprite.flip_v = true
+	else:
+		$Sprite.flip_v = false
 
 func _process(_delta):
 	if!is_network_master():
@@ -80,15 +78,16 @@ func _process(_delta):
 		attack_move()
 
 remotesync func set_target_position(set_position):
-	if set_position != null:
-		# No out of bounds action
-		var mouse_pos = get_global_mouse_position()
-		var world_size = get_viewport().size
-		destination.global_position = Vector2(clamp(mouse_pos[0],0,world_size[0]),clamp(mouse_pos[1],0,world_size[1]))
-		destination.visible = true
-		return
-	destination.global_position = global_position
-	destination.visible = false
+	if is_network_master():
+		if set_position != null:
+			# No out of bounds action
+			var mouse_pos = get_global_mouse_position()
+			var world_size = get_viewport().size
+			destination.global_position = Vector2(clamp(mouse_pos[0],0,world_size[0]),clamp(mouse_pos[1],0,world_size[1]))
+			destination.visible = true
+			return
+		destination.global_position = global_position
+		destination.visible = false
 
 func attack_move():
 	attack_timer = attack_cooldown
