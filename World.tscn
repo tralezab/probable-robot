@@ -1,11 +1,66 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
+[ext_resource path="res://Menu.gd" type="Script" id=1]
 [ext_resource path="res://background.jpg" type="Texture" id=2]
 
 [node name="World" type="Node"]
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 512.588, 301.752 )
+position = Vector2( 516.087, 302.918 )
 scale = Vector2( 1.65856, 1.97899 )
 z_index = -1
 texture = ExtResource( 2 )
+
+[node name="Menu" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Selection" type="TabContainer" parent="Menu"]
+visible = false
+margin_left = 783.268
+margin_top = 15.726
+margin_right = 1011.27
+margin_bottom = 516.726
+tab_align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Classes" type="ItemList" parent="Menu/Selection"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cursors" type="ItemList" parent="Menu/Selection"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="Menu"]
+margin_left = 969.493
+margin_top = 6.47798
+margin_right = 1020.49
+margin_bottom = 32.478
+text = "Menu"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="item_selected" from="Menu/Selection/Cursors" to="Menu" method="_on_Cursors_item_selected"]
+[connection signal="pressed" from="Menu/Button" to="Menu" method="_on_Button_pressed"]
