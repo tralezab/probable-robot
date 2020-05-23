@@ -11,8 +11,10 @@ var one_shot_johnny = preload("res://one_shot_johnny.tscn")
 
 #called by world setup and when shrimp die
 func spawn_shrimp(p_id = null):
-	if p_id:
-		player_id = p_id
+	if not p_id:
+		print("No p_id when trying to spawn client.")
+		return
+	player_id = p_id
 	randomize()
 	#var pickable_shrimps = [test_shrimp, one_shot_johnny]
 	#pickable_shrimps.shuffle()
@@ -21,13 +23,18 @@ func spawn_shrimp(p_id = null):
 	add_child(chosen_shrimp)
 	chosen_shrimp.set_network_master(player_id)
 	chosen_shrimp.setup_vars()
-	chosen_shrimp.set_name(player_name)
 	shrimp = chosen_shrimp
 	#if !current: need to add the code where bots autospawn
 
-func set_name(new_name):
+func set_player_name(new_name):
 	player_name = new_name
+	if shrimp:
+		shrimp.rpc("set_label_name",player_name)
 
 func set_cursor(tex):
 	if shrimp:
 		shrimp.set_cursor(tex)
+
+func sync_up():
+	if shrimp:
+		shrimp.set_puppet_vars()
