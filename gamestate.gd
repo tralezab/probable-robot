@@ -1,7 +1,7 @@
 extends Node
 
 # Max number of players.
-const MAX_PEERS = 12
+const MAX_PEERS = 6
 
 # Name for my player.
 var player_name = "Armhulen"
@@ -146,10 +146,10 @@ func begin_game():
 	var spawnx = 200
 	var spawny = 200
 	spawning_positions_for_players[1] = Vector2(spawnx,spawny) #reserved for server itself
-	spawnx += 200
+	spawnx += 100
 	for player_id in players:
 		spawning_positions_for_players[player_id] = Vector2(spawnx,spawny)
-		spawnx += 200
+		spawnx += 100
 	for peer in players:
 		rpc_id(peer, "pre_start_game", spawning_positions_for_players)
 	pre_start_game(spawning_positions_for_players)

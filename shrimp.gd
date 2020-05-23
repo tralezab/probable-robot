@@ -50,7 +50,7 @@ func _physics_process(delta):
 			mode = RigidBody2D.MODE_STATIC
 		if direction_to.length() < 10:
 			linear_velocity = Vector2.ZERO
-			self.rpc("set_target_position", null)
+			set_target_position(null)
 		else:
 			linear_velocity = direction_to.clamped(speed) * speed * delta
 		healthbox.global_position = global_position - Vector2(0, -40)
