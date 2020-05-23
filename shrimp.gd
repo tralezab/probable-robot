@@ -108,6 +108,10 @@ remotesync func adjust_health(amount):
 		get_parent().spawn_shrimp()
 		queue_free()
 
+# Someone change tex to text instead of a texture stream before you sync this.
+func set_cursor(tex):
+	destination.get_node("Sprite2").set_texture(tex)
+
 remotesync func display_attacksprite(time):
 	attacksprite.visible = true
 	yield(get_tree().create_timer(time), "timeout")

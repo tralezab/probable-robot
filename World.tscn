@@ -62,4 +62,5 @@ text = "Menu"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="item_selected" from="Menu/Selection/Cursors" to="Menu" method="_on_Cursors_item_selected"]
 [connection signal="pressed" from="Menu/Button" to="Menu" method="_on_Button_pressed"]

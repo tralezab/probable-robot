@@ -26,3 +26,7 @@ func spawn_shrimp(p_id = null):
 
 func set_name(new_name):
 	player_name = new_name
+
+func set_cursor(tex):
+	if shrimp:
+		shrimp.set_cursor(tex)

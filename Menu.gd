@@ -14,3 +14,7 @@ func setup_tabs():
 
 func _on_Button_pressed():
 	tabs.visible = not tabs.visible
+
+func _on_Cursors_item_selected(index):
+	var item = $Selection/Cursors.get_item_icon(index)
+	gamestate.player_node.set_cursor(item)
