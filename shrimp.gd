@@ -12,10 +12,10 @@ onready var attacksprite = $Attack
 onready var attackarea = $Attack_Area
 
 onready var destination = get_parent().get_node("Destination")
-var healthbox = null
+var infoholder = null
 var healthbar = null
+var namelabel = null
 
-puppet var puppet_healthbox_position = Vector2()
 puppet var puppet_pos = Vector2()
 puppet var puppet_motion = Vector2()
 puppet var puppet_rotation = 0
@@ -27,13 +27,11 @@ func _ready():
 	mode = RigidBody2D.MODE_STATIC
 
 func setup_vars():
-	healthbox = get_parent().get_node("bar")
-	healthbar = healthbox.get_node("health")
-	healthbox.global_position = global_position - Vector2(0, -40)
+	infoholder = get_parent().get_node("bar")
+	healthbar = infoholder.get_node("health")
 	healthbar.modulate = Color(0,1,0,1)
-	
+	namelabel = infoholder.get_node("name")
 	#RSETS
-	rset("puppet_healthbox_position", healthbox.global_position)
 	rset("puppet_motion", linear_velocity)
 	rset("puppet_pos", position)
 	rset("puppet_rotation", rotation)
@@ -53,14 +51,13 @@ func _physics_process(delta):
 			set_target_position(null)
 		else:
 			linear_velocity = direction_to.clamped(speed) * speed * delta
-		healthbox.global_position = global_position - Vector2(0, -40)
-		rset("puppet_healthbox_position", healthbox.global_position)
+		infoholder.position = position
 		rset("puppet_motion", linear_velocity)
 		rset("puppet_pos", position)
 		rset("puppet_rotation", rotation)
 	else:
-		healthbox.global_position = puppet_healthbox_position
 		position = puppet_pos
+		infoholder.position = position
 		linear_velocity = puppet_motion
 		rotation = puppet_rotation
 
@@ -99,6 +96,9 @@ func attack_move():
 		# Can't reference your own class. At least this won't crash
 		if shramp.has_method("adjust_health"):
 			shramp.rpc("adjust_health",-attack_damage)
+
+func set_name(name):
+	namelabel.set_text(name)
 
 remotesync func adjust_health(amount):
 	health += min(amount, max_health)

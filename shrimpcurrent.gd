@@ -21,6 +21,7 @@ func spawn_shrimp(p_id = null):
 	add_child(chosen_shrimp)
 	chosen_shrimp.set_network_master(player_id)
 	chosen_shrimp.setup_vars()
+	chosen_shrimp.set_name(player_name)
 	shrimp = chosen_shrimp
 	#if !current: need to add the code where bots autospawn
 
