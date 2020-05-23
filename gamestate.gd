@@ -5,6 +5,8 @@ const MAX_PEERS = 6
 
 # Name for my player.
 var player_name = "Armhulen"
+# Node of this client
+var player_node = null
 
 # Names for remote players in id:name format.
 var players = {}
@@ -82,6 +84,7 @@ remote func pre_start_game(spawning_positions_for_players):
 		if p_id == get_tree().get_network_unique_id():
 			# If node for this peer id, set name.
 			player.set_name(player_name)
+			player_node = player
 		else:
 			# Otherwise set name from peer.
 			player.set_name(players[p_id])
