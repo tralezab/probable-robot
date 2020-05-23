@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://lobby.gd" type="Script" id=1]
 [ext_resource path="res://Battle_shrimps.png" type="Texture" id=2]
 [ext_resource path="res://title.png" type="Texture" id=3]
 [ext_resource path="res://miscicons/2.png" type="Texture" id=4]
+[ext_resource path="res://music/Theme.ogg" type="AudioStream" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 1 )
@@ -134,9 +135,9 @@ __meta__ = {
 }
 
 [node name="Port" type="LineEdit" parent="Connect"]
-margin_left = 12.0
+margin_left = 17.8521
 margin_top = 132.0
-margin_right = 168.0
+margin_right = 173.852
 margin_bottom = 156.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
@@ -165,6 +166,15 @@ margin_bottom = 107.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Join"
+
+[node name="Togglemusic" type="Button" parent="Connect"]
+margin_left = 181.0
+margin_top = 132.0
+margin_right = 275.0
+margin_bottom = 152.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+text = "Toggle Music"
 
 [node name="ErrorLabel" type="Label" parent="Connect"]
 margin_left = 15.0
@@ -209,6 +219,10 @@ custom_styles/panel = SubResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
 [connection signal="pressed" from="Players/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Connect/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Connect/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Connect/Togglemusic" to="." method="_on_togglemusic_pressed"]

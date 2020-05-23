@@ -9,6 +9,7 @@ func _ready():
 	gamestate.connect("game_error", self, "_on_game_error")
 	# Set the player name according to the system username. Fallback to the path.
 	$Connect/Name.text = _pick_name()
+	$AudioStreamPlayer.play()
 
 func _on_host_pressed():
 	if $Connect/Name.text == "":
@@ -75,8 +76,14 @@ func _pick_name():
 	var possible_names = [
 		"Prawny Brawler", "Supreme Shrimp", "Fishy Fighter",
 		"Crustacaen Colossus", "Pathetic Squirt", "Twisted Twerp",
-		"Maritime Martini", "Larry Lobster", "Poggers Crab"
+		"Maritime Martini", "Larry Lobster", "Poggers Crab", "Andy Bagsin"
 	]
 	randomize()
 	possible_names.shuffle()
 	return possible_names.front()
+
+func _on_togglemusic_pressed():
+	if $AudioStreamPlayer.playing:
+		$AudioStreamPlayer.stop()
+	else:
+		$AudioStreamPlayer.play()
