@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/cross6.png-8e31ec9b48d62d81b09c24b8279cfaaf.stex"
+path="res://.import/Basic.png-3c3b3c4b62fd8681d29057c935979ee0.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://shrimpicons/cross6.png"
-dest_files=[ "res://.import/cross6.png-8e31ec9b48d62d81b09c24b8279cfaaf.stex" ]
+source_file="res://shrimpicons/Basic.png"
+dest_files=[ "res://.import/Basic.png-3c3b3c4b62fd8681d29057c935979ee0.stex" ]
 
 [params]
 

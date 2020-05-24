@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/cross6.png-8e31ec9b48d62d81b09c24b8279cfaaf.stex"
+path="res://.import/Glass Cannon.png-bb0fbc79d38dc539ead9cfc0c07e84be.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://shrimpicons/cross6.png"
-dest_files=[ "res://.import/cross6.png-8e31ec9b48d62d81b09c24b8279cfaaf.stex" ]
+source_file="res://shrimpicons/Glass Cannon.png"
+dest_files=[ "res://.import/Glass Cannon.png-bb0fbc79d38dc539ead9cfc0c07e84be.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

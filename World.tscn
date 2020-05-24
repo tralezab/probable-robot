@@ -21,10 +21,10 @@ __meta__ = {
 
 [node name="Selection" type="TabContainer" parent="Menu"]
 visible = false
-margin_left = 783.268
-margin_top = 15.726
-margin_right = 1011.27
-margin_bottom = 516.726
+margin_left = 713.0
+margin_top = 16.0
+margin_right = 1031.0
+margin_bottom = 517.0
 tab_align = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -62,5 +62,17 @@ text = "Menu"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Respawn" type="Button" parent="Menu"]
+margin_left = 890.712
+margin_top = 6.47798
+margin_right = 958.712
+margin_bottom = 32.478
+text = "Respawn"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="item_selected" from="Menu/Selection/Classes" to="Menu" method="_on_class_selected"]
 [connection signal="item_selected" from="Menu/Selection/Cursors" to="Menu" method="_on_Cursors_item_selected"]
 [connection signal="pressed" from="Menu/Button" to="Menu" method="_on_Button_pressed"]
+[connection signal="pressed" from="Menu/Respawn" to="Menu" method="_on_respawn_pressed"]
