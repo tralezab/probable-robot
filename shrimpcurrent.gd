@@ -31,7 +31,7 @@ func set_player_id(new_id):
 	player_id = new_id
 
 func set_cursor(tex):
-	$destination/Sprite2.set_texture(tex)
+	$Destination/Sprite2.set_texture(tex)
 
 func sync_up():
 	if shrimp:
