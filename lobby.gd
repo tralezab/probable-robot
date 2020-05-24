@@ -9,7 +9,7 @@ func _ready():
 	gamestate.connect("game_error", self, "_on_game_error")
 	# Set the player name according to the system username. Fallback to the path.
 	$Connect/Name.text = _pick_name()
-	$AudioStreamPlayer.play()
+	#$AudioStreamPlayer.play() ##if you turn this on, you will suffer a thousand deaths
 
 func _on_host_pressed():
 	if $Connect/Name.text == "":
