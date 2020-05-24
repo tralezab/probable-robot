@@ -83,12 +83,11 @@ remote func pre_start_game(spawning_positions_for_players):
 		player.global_position = spawning_positions_for_players[p_id]
 		# This is extremely important. This name is what determines everything.
 		player.set_name(str(p_id))
+		player.set_player_id(p_id)
 		if p_id == get_tree().get_network_unique_id():
 			player_node = player
 		world.add_child(player)
 
-	# Tell the others about our glorious state.
-	player_node.sync_up()
 	player_node.set_player_name(player_name)
 
 	if not get_tree().is_network_server():

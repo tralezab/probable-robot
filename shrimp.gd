@@ -97,20 +97,12 @@ func attack_move():
 		if shramp.has_method("adjust_health"):
 			shramp.rpc("adjust_health",-attack_damage)
 
-remotesync func set_label_name(name):
-	namelabel.set_text(name)
-
 remotesync func adjust_health(amount):
 	health += min(amount, max_health)
 	var percentage = float(health)/float(max_health)
 	healthbar.modulate = Color(1 - percentage,percentage,0,1)
 	if health <= 0:
 		get_parent().on_shrimp_death()
-		queue_free()
-
-# Someone change tex to text instead of a texture stream before you sync this.
-func set_cursor(tex):
-	destination.get_node("Sprite2").set_texture(tex)
 
 remotesync func display_attacksprite(time):
 	attacksprite.visible = true
