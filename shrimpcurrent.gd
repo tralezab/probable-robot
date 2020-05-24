@@ -6,30 +6,28 @@ var player_id = ""
 var player_name = ""
 var shrimp = null
 
-var test_shrimp = preload("res://testing_shrimp.tscn")
-var one_shot_johnny = preload("res://one_shot_johnny.tscn")
+var picked_shrimp = "res://testing_shrimp.tscn"
 
 #called by world setup and when shrimp die
-func spawn_shrimp(p_id = null):
-	if not p_id:
-		print("No p_id when trying to spawn client.")
+func spawn_shrimp():
+	if player_id == null:
+		print("NO PLAYER ID SET FOR SPAWN_SHRIMP FUNCTION")
 		return
-	player_id = p_id
-	randomize()
-	#var pickable_shrimps = [test_shrimp, one_shot_johnny]
-	#pickable_shrimps.shuffle()
-	#var chosen_shrimp = pickable_shrimps.front().instance()
-	var chosen_shrimp = test_shrimp.instance()
+	var chosen_shrimp = load(picked_shrimp).instance()
 	add_child(chosen_shrimp)
 	chosen_shrimp.set_network_master(player_id)
 	chosen_shrimp.setup_vars()
 	shrimp = chosen_shrimp
+	$bar.visible = true
 	#if !current: need to add the code where bots autospawn
 
 func set_player_name(new_name):
 	player_name = new_name
 	if shrimp:
 		shrimp.rpc("set_label_name",player_name)
+
+func set_player_id(new_id):
+	player_id = new_id
 
 func set_cursor(tex):
 	if shrimp:
@@ -38,3 +36,10 @@ func set_cursor(tex):
 func sync_up():
 	if shrimp:
 		shrimp.set_puppet_vars()
+
+func set_shrimp(path):
+	picked_shrimp = path
+
+func on_shrimp_death():
+	$bar.visible = false
+	shrimp = null

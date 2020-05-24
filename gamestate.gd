@@ -85,8 +85,10 @@ remote func pre_start_game(spawning_positions_for_players):
 		player.set_name(str(p_id))
 		if p_id == get_tree().get_network_unique_id():
 			player_node = player
-		player.spawn_shrimp(p_id)
-		#player.shrimp.set_network_master() #give player control
+		else:
+			# Otherwise set name from peer.
+			player.set_name(players[p_id])
+		player.set_player_id(p_id)
 		world.add_child(player)
 
 	# Tell the others about our glorious state.
