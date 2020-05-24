@@ -81,16 +81,17 @@ remote func pre_start_game(spawning_positions_for_players):
 	for p_id in spawning_positions_for_players:
 		var player = player_scene.instance()
 		player.global_position = spawning_positions_for_players[p_id]
+		# This is extremely important. This name is what determines everything.
+		player.set_name(str(p_id))
 		if p_id == get_tree().get_network_unique_id():
-			# If node for this peer id, set name.
-			player.set_name(player_name)
 			player_node = player
-		else:
-			# Otherwise set name from peer.
-			player.set_name(players[p_id])
 		player.spawn_shrimp(p_id)
 		#player.shrimp.set_network_master() #give player control
 		world.add_child(player)
+
+	# Tell the others about our glorious state.
+	player_node.sync_up()
+	player_node.set_player_name(player_name)
 
 	if not get_tree().is_network_server():
 		# Tell server we are ready to start.

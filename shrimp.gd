@@ -31,10 +31,6 @@ func setup_vars():
 	healthbar = infoholder.get_node("health")
 	healthbar.modulate = Color(0,1,0,1)
 	namelabel = infoholder.get_node("name")
-	#RSETS
-	rset("puppet_motion", linear_velocity)
-	rset("puppet_pos", position)
-	rset("puppet_rotation", rotation)
 
 func _physics_process(delta):
 	if is_network_master():
@@ -52,9 +48,7 @@ func _physics_process(delta):
 		else:
 			linear_velocity = direction_to.clamped(speed) * speed * delta
 		infoholder.position = position
-		rset("puppet_motion", linear_velocity)
-		rset("puppet_pos", position)
-		rset("puppet_rotation", rotation)
+		set_puppet_vars()
 	else:
 		position = puppet_pos
 		infoholder.position = position
@@ -65,6 +59,12 @@ func _physics_process(delta):
 		$Sprite.flip_v = true
 	else:
 		$Sprite.flip_v = false
+
+# master makes sure no idiot calls this on the wrong shrimp.
+master func set_puppet_vars():
+	rset("puppet_motion", linear_velocity)
+	rset("puppet_pos", position)
+	rset("puppet_rotation", rotation)
 
 func _process(_delta):
 	if!is_network_master():
@@ -97,7 +97,7 @@ func attack_move():
 		if shramp.has_method("adjust_health"):
 			shramp.rpc("adjust_health",-attack_damage)
 
-func set_name(name):
+remotesync func set_label_name(name):
 	namelabel.set_text(name)
 
 remotesync func adjust_health(amount):
