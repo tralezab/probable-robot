@@ -2,7 +2,7 @@ extends Node
 
 var tabs = null
 
-var class_dict = {"Basic":"res://testing_shrimp.tscn", "Glass Cannon":"res://one_shot_johnny.tscn"}
+var class_dict = {"Basic":"res://testing_shrimp.tscn", "Glass Cannon":"res://one_shot_johnny.tscn", "Ethereal":"res://shrimp_code_scenes/ether.tscn"}
 
 func _ready():
 	tabs = get_node("Selection")

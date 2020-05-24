@@ -22,8 +22,6 @@ scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
 region_rect = Rect2( 60, 86, 28, 25 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
 [node name="Attack" type="Sprite" parent="."]
 visible = false
 modulate = Color( 1, 1, 1, 0.784314 )

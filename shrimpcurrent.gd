@@ -2,7 +2,7 @@ extends Node2D
 
 #imsxz, this script handles the player's """MIND""" essentially it lets them pick a shrimp after their shrimp dies.
 
-var player_id = ""
+var player_id = null
 var player_name = ""
 var shrimp = null
 

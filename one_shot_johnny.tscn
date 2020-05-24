@@ -27,11 +27,9 @@ texture = ExtResource( 1 )
 flip_h = true
 region_rect = Rect2( 0, 85, 54, 30 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
 [node name="Attack" type="Sprite" parent="."]
 visible = false
-modulate = Color( 1, 0, 0, 0.784314 )
+modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 69.8753, 0 )
 scale = Vector2( 2.66667, 4 )
 texture = ExtResource( 2 )

@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://shrimp_code_scenes/ether.gd" type="Script" id=1]
+[ext_resource path="res://shrimpicons/Ethereal.png" type="Texture" id=2]
+[ext_resource path="res://attack.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 13.0312, 15.5413 )
+
+[node name="Shrimp" type="RigidBody2D"]
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+
+[node name="Attack" type="Sprite" parent="."]
+modulate = Color( 0.639216, 0, 1, 1 )
+position = Vector2( 21.8714, -4.76837e-07 )
+scale = Vector2( 1.303, 1.61721 )
+texture = ExtResource( 3 )
+
+[node name="Attack_Area" type="Area2D" parent="."]
+position = Vector2( 21.8714, -4.76837e-07 )
+scale = Vector2( 1.303, 1.61721 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Attack_Area"]
+polygon = PoolVector2Array( 1.97086, -5.96392, -2.08165, -5.96392, -6.00651, -1.92748, -6.03842, 1.92899, -2.01783, 6.01685, 1.93895, 6.01685, 2.00277, 5.01417, -0.0394382, 2.03183, 5.89572, 1.10628, 5.99145, -0.976216, -0.0713482, -2.00461, 2.00277, -5.03837 )
